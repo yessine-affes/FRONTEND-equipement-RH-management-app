@@ -1,0 +1,194 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New Employee" icon="pi pi-plus" class="p-button-success mr-2" (click)="navigateToAddEmployee()"></button>
+                    </div>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="employees" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['first_name', 'last_name', 'email', 'speciality', 'score']" [paginator]="true" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [(selection)]="selectedEmployees" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Manage Employees</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="email">Email <p-sortIcon field="email"></p-sortIcon></th>
+                        <th pSortableColumn="first_name">First Name <p-sortIcon field="first_name"></p-sortIcon></th>
+                        <th pSortableColumn="last_name">Last Name <p-sortIcon field="last_name"></p-sortIcon></th>
+                        <th pSortableColumn="availability">Availability <p-sortIcon field="availability"></p-sortIcon></th>
+                        <th pSortableColumn="speciality">Speciality <p-sortIcon field="speciality"></p-sortIcon></th>
+                        <th pSortableColumn="score">Score <p-sortIcon field="score"></p-sortIcon></th>
+                        <th>Photo</th>
+                        <th>Operations</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-employee>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="employee"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            <span class="p-column-title">Email</span>
+                            {{employee.email}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">First Name</span>
+                            {{employee.first_name}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Last Name</span>
+                            {{employee.last_name}}
+                        </td>
+                        <td>
+                            <span class="p-column-title">Availability</span>
+                            {{ employee.availability === 1 ? 'Yes' : 'No' }}
+                          </td>
+                        <td>
+                            <span class="p-column-title">Speciality</span>
+                            {{employee.speciality}} <!-- Assuming you have this property in your Employee model -->
+                        </td>
+                        <td>
+                            <span class="p-column-title">Score</span>
+                            {{employee.score}} <!-- Assuming you have this property in your Employee model -->
+                        </td>
+                        <td>
+                            <img [src]="'http://127.0.0.1:8000/api/image/' + employee.photo"  (error)="setFallbackImage($event)" alt="Employee Image" style="border-radius: 50px;margin-right: 50px;" width="80"/>
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info mr-2" (click)="addCertifEmployee(employee)"></button>
+                             <!--    <button pButton pRipple icon="pi pi-briefcase" class="p-button-rounded p-button-warning mr-2" (click)="viewCertifications(employee)"></button> -->
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editEmp(employee)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="deleteEmployee(employee)"></button>
+                                <button pButton pRipple icon="pi pi-briefcase" class="p-button-rounded p-button-alert  ml-2" (click)="readEmp(employee)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="10">No employees found.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+
+<!-- New Employee Dialog -->
+<!-- New Employee Dialog -->
+<p-dialog [(visible)]="employeeDialog" [style]="{width: '450px'}" header="Employee Details" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="email">Email</label>
+            <input type="email" pInputText id="email" [(ngModel)]="employee.email" required [ngClass]="{'ng-invalid ng-dirty': submitted && !employee.email}" />
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !employee.email">Email is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="first_name">First Name</label>
+            <input type="text" pInputText id="first_name" [(ngModel)]="employee.first_name" required [ngClass]="{'ng-invalid ng-dirty': submitted && !employee.first_name}" />
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !employee.first_name">First name is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="last_name">Last Name</label>
+            <input type="text" pInputText id="last_name" [(ngModel)]="employee.last_name" required [ngClass]="{'ng-invalid ng-dirty': submitted && !employee.last_name}" />
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !employee.last_name">Last name is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="photo">Photo</label>
+            <input type="file" id="photo" (change)="onFileChange($event)" />
+            <div *ngIf="imageError">
+                <small class="p-error">{{ imageError }}</small>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="speciality">Speciality</label>
+            <p-dropdown [options]="specialities" [(ngModel)]="employee.speciality" placeholder="Select Speciality"></p-dropdown>
+        </div>
+
+        <div class="field">
+            <label for="score">Score</label>
+            <p-inputNumber id="score" [(ngModel)]="employee.score" min="0"></p-inputNumber>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveEmployee()"></button>
+    </ng-template>
+</p-dialog>
+
+
+<!-- Delete Employee Dialog -->
+<p-dialog [(visible)]="deleteEmployeeDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span *ngIf="employee">Are you sure you want to delete <b>{{employee.first_name}} {{employee.last_name}}</b>?</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteEmpDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDelete()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- Delete Multiple Employees Dialog -->
+<p-dialog [(visible)]="deleteEmployeesDialog" header="Confirm" [modal]="true" [style]="{width:'450px'}">
+    <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span>Are you sure you want to delete selected employees?</span>
+    </div>
+    <ng-template pTemplate="footer">
+        <button pButton pRipple icon="pi pi-times" class="p-button-text" label="No" (click)="deleteEmpsDialog = false"></button>
+        <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Yes" (click)="confirmDeleteSelected()"></button>
+    </ng-template>
+</p-dialog>
+
+<!-- Edit Employee Dialog -->
+<p-dialog [(visible)]="employeeEditDialog" [style]="{width: '450px'}" header="Edit Employee Details" [modal]="true" class="p-fluid">
+    <ng-template pTemplate="content">
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" pInputText id="email" [(ngModel)]="employee.email" required/>
+      </div>
+      <div class="field">
+        <label for="first_name">First Name</label>
+        <input type="text" pInputText id="first_name" [(ngModel)]="employee.first_name" required/>
+      </div>
+      <div class="field">
+        <label for="last_name">Last Name</label>
+        <input type="text" pInputText id="last_name" [(ngModel)]="employee.last_name" required/>
+      </div>
+      <div class="field">
+        <label for="speciality">Speciality</label>
+        <p-dropdown [(ngModel)]="employee.speciality" [options]="specialities" placeholder="Select Speciality"></p-dropdown>
+      </div>
+      <div class="field">
+        <label for="score">Score</label>
+        <p-inputNumber id="score" [(ngModel)]="employee.score"></p-inputNumber>
+      </div>
+    </ng-template>
+  
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveEditEmployee()"></button>
+    </ng-template>
+  </p-dialog>
+  

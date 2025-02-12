@@ -1,0 +1,105 @@
+<div class="surface-section p-4 md:p-6 lg:p-8">
+    <div class="font-medium text-3xl text-primary mb-4">
+      <p-toast></p-toast>
+      <i class="pi pi-folder mr-2" style="height: 30px; width: 40px; font-size: 40px;"></i>
+      Edit Project
+    </div>
+    <div class="text-secondary mb-6">Fill the fields you want to edit.</div>
+  
+    <div class="surface-card p-5 shadow-2 border-round p-fluid">
+      <div class="field mb-4">
+        <label for="title">Title</label>
+        <input
+          type="text"
+          pInputText
+          id="title"
+          [(ngModel)]="project.title"
+          required
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !project.title }" />
+        <small class="p-error" *ngIf="submitted && !project.title">Title is required.</small>
+      </div>
+  
+      <div class="field mb-4">
+        <label for="description">Description</label>
+        <textarea
+          pInputTextarea
+          id="description"
+          [(ngModel)]="project.description"
+          rows="3"
+          class="description-input"
+          required
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !project.description }">
+        </textarea>
+        <small class="p-error" *ngIf="submitted && !project.description">Description is required.</small>
+      </div>
+  
+      <div class="field mb-4">
+        <label for="start_date">Start Date</label>
+        <p-calendar
+          id="start_date"
+          [(ngModel)]="project.start_date"
+          showIcon="true"
+          dateFormat="yy-mm-dd"
+          required
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !project.start_date }">
+        </p-calendar>
+        <small class="p-error" *ngIf="submitted && !project.start_date">Start date is required.</small>
+      </div>
+  
+      <div class="field mb-4">
+        <label for="end_date">End Date</label>
+        <p-calendar
+          id="end_date"
+          showIcon="true"
+          [(ngModel)]="project.end_date"
+          dateFormat="yy-mm-dd"
+          required
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !project.end_date }">
+        </p-calendar>
+        <small class="p-error" *ngIf="submitted && !project.end_date">End date is required.</small>
+      </div>
+  
+      <div class="field mb-4">
+        <label for="status">Status</label>
+        <p-dropdown
+          [options]="statuses"
+          [(ngModel)]="project.status"
+          placeholder="{{ project.status }}"
+          class="w-full"
+          required
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !project.status }">
+        </p-dropdown>
+        <small class="p-error" *ngIf="submitted && !project.status">Status is required.</small>
+      </div>
+  
+      <div class="flex justify-between gap-3 mt-4">
+        <button
+          pButton
+          pRipple
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-text p-button-danger box-btn"
+          (click)="cancel()">
+        </button>
+        <button
+          pButton
+          pRipple
+          label="Save"
+          icon="pi pi-check"
+          class="p-button-text p-button-success box-btn"
+          (click)="saveEditProject()">
+        </button>
+      </div>
+  
+      <div class="flex justify-between mt-4">
+        <button
+          pButton
+          label="Update Tasks"
+          icon="pi pi-file"
+          class="p-button-info"
+          (click)="navigateToUpdateTasks()">
+        </button>
+      </div>
+    </div>
+  </div>
+  

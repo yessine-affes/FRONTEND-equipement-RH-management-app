@@ -1,0 +1,12 @@
+.error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+
+
+  ::ng-deep .p-calendar .p-datepicker-calendar .p-highlight {
+    background-color: #ffcc00 !important; /* Highlight color */
+    border-color: #ffcc00 !important;
+  }
+  

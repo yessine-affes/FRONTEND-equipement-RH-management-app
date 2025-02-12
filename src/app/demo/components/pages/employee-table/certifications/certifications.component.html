@@ -1,0 +1,168 @@
+<div class="surface-section p-4 md:p-6 lg:p-8">
+  <div class="font-medium text-3xl text-primary mb-4">
+    <p-toast></p-toast>
+    <i class="pi pi-user mr-2" style="height: 30px; width: 40px; font-size: 40px;"></i>
+    Employee Information
+  </div>
+  <div class="text-secondary mb-6">Manage your profile details below.</div>
+
+  <div class="surface-card p-5 shadow-2 border-round">
+    <ul class="list-none p-0 m-0">
+
+      <!-- Photo -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-medium">Photo</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">
+          <img [src]="'http://127.0.0.1:8000/api/image/' + employee.photo" alt="User Photo"
+            style="width: 50px; height: 50px; border-radius: 50%;" />
+        </div>
+      </li>
+      <!-- First Name -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-medium">First Name</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ employee?.first_name }}</div>
+      </li>
+
+      <!-- Last Name -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-medium">Last Name</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ employee?.last_name }}</div>
+      </li>
+
+      <!-- Email -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-medium">Email</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ employee?.email }}</div>
+      </li>
+
+      <!-- Speciality -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-medium">Speciality</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ employee?.speciality }}</div>
+      </li>
+
+
+    </ul>
+    <!-- Button to toggle Certifications Table 
+    <div class="mt-4">
+      <button pButton label="View Certifications" icon="pi pi-file" class="p-button-info"
+        (click)="toggleCertifications()"></button>
+    </div>-->
+
+    <!-- Certifications Table -->
+    <div *ngIf="showCertifications" class="mt-4">
+
+      <p-table [value]="certifications" responsiveLayout="scroll">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Certification Name</th>
+            <th>Description</th>
+            <th>Issued Date</th>
+            <th>Expiry Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-certification>
+          <tr>
+            <td>{{ certification.name }}</td>
+            <td>{{ certification.description }}</td>
+            <td>{{ certification.issued_date | date }}</td>
+            <td>{{ certification.expiry_date | date }}</td>
+            <td>{{ certification.status }}</td>
+            <td>
+              <button pButton icon="pi pi-pencil" class="p-button-warning mr-2"
+                (click)="openEditCertificationDialog(certification)"></button>
+              <button pButton icon="pi pi-trash" class="p-button-danger"
+                (click)="openDeleteCertificationDialog(certification)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+      <button pButton label="Add Certification" icon="pi pi-plus" class="p-button-success mt-4"
+        (click)="openAddCertificationDialog()"></button>
+    </div>
+    <!-- Add Certification Dialog -->
+    <p-dialog [(visible)]="certificationAddDialog" [style]="{width: '450px'}" header="Add Certification" [modal]="true"
+      class="p-fluid">
+      <ng-template pTemplate="content">
+        <div class="field">
+          <label for="certificationName">Certification Name</label>
+          <input type="text" pInputText id="certificationName" [(ngModel)]="newCertification.name" required />
+        </div>
+       
+        <div class="field">
+          <label for="issuedDate">Issued Date</label>
+          <p-calendar id="issuedDate" [(ngModel)]="newCertification.issued_date" dateFormat="mm/dd/yy"
+            required></p-calendar>
+        </div>
+        <div class="field">
+          <label for="expiryDate">Expiry Date</label>
+          <p-calendar id="expiryDate" [(ngModel)]="newCertification.expiry_date" dateFormat="mm/dd/yy"
+            required></p-calendar>
+        </div>
+        <div class="field">
+          <label for="description">Description</label>
+          <textarea id="description" pInputText [(ngModel)]="newCertification.description" rows="3" required></textarea>
+        </div>
+        <div class="field">
+          <label for="status">Status</label>
+          <input type="text" pInputText id="status" [(ngModel)]="newCertification.status" required />
+        </div>
+      </ng-template>
+      <ng-template pTemplate="footer">
+        <button pButton label="Cancel" icon="pi pi-times" class="p-button-text"
+          (click)="hideCertificationAddDialog()"></button>
+        <button pButton label="Add" icon="pi pi-check" class="p-button-text" (click)="addCertification()"></button>
+      </ng-template>
+    </p-dialog>
+
+    <!-- Delete Certification Dialog -->
+    <p-dialog [(visible)]="certificationDeleteDialog" header="Confirm" [modal]="true" [style]="{width: '450px'}">
+      <div class="flex align-items-center justify-content-center">
+        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+        <span *ngIf="certification">Are you sure you want to delete <b>{{certification.name}}</b> certification?</span>
+      </div>
+      <ng-template pTemplate="footer">
+        <button pButton label="No" icon="pi pi-times" class="p-button-text"
+          (click)="hideCertificationDeleteDialog()"></button>
+        <button pButton label="Yes" icon="pi pi-check" class="p-button-text"
+          (click)="confirmDeleteCertification()"></button>
+      </ng-template>
+    </p-dialog>
+<!-- Edit Certification Dialog -->
+<p-dialog [(visible)]="certificationEditDialog" [style]="{width: '450px'}" header="Edit Certification"
+  [modal]="true" class="p-fluid">
+  <ng-template pTemplate="content">
+    <div class="field">
+      <label for="certificationName">Certification Name</label>
+      <input type="text" pInputText id="certificationName" [(ngModel)]="selectedCertification.name" required />
+    </div>
+   
+    <div class="field">
+      <label for="issuedDate">Issued Date</label>
+      <p-calendar id="issuedDate" [placeholder]="selectedCertification.issued_date ? selectedCertification.issued_date : '' " [(ngModel)]="selectedCertification.issued_date" dateFormat="mm/dd/yy" required></p-calendar>
+    </div>
+    <div class="field">
+      <label for="expiryDate">Expiry Date</label>
+      <p-calendar id="expiryDate"[placeholder]="selectedCertification.expiry_date ? selectedCertification.expiry_date : '' " [(ngModel)]="selectedCertification.expiry_date" dateFormat="mm/dd/yy" required></p-calendar>
+    </div>
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea id="description" pInputText [(ngModel)]="selectedCertification.description" rows="3" required></textarea>
+    </div>
+    <div class="field">
+      <label for="status">Status</label>
+      <input type="text" pInputText id="status" [(ngModel)]="selectedCertification.status" required />
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideCertificationEditDialog()"></button>
+    <button pButton label="Save" icon="pi pi-check" class="p-button-text" (click)="updateCertification()"></button>
+  </ng-template>
+</p-dialog>
+
+
+  </div>
+</div>

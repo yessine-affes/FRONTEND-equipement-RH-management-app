@@ -1,0 +1,172 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+
+            <!-- Table Section -->
+            <p-table #dt [value]="recs" responsiveLayout="scroll" [rows]="10"
+                     [globalFilterFields]="['subject', 'content']" [paginator]="true"
+                     [rowsPerPageOptions]="rowsPerPageOptions" [showCurrentPageReport]="true"
+                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                     [(selection)]="selectedRecs" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Subject</th>
+                        <th>Content</th>
+                        <th>Photo</th>
+                        <th>Actions</th>
+                    </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-rec>
+                    <tr>
+                        <td>{{ rec.subject || 'No subject available' }}</td>
+                        <td>{{ rec.content || 'No content available' }}</td>
+                        <td>
+                            <img *ngIf="rec.photo" [src]="'http://127.0.0.1:8000/api/image/' + rec.photo"
+                                 alt="Report Image" width="100" style="border-radius: 5px; box-shadow: 0px 1px 4px rgba(0,0,0,0.1);"
+                                 (error)="setFallbackImage($event)" />
+                            <span *ngIf="!rec.photo">No Image Available</span>
+                        </td>
+                        <td>
+                            <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info mr-2"
+                                    (click)="readRec(rec)"></button>
+                            <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger mr-2" 
+                                    (click)="deleteRec(rec)"></button>
+                            <button pButton pRipple icon="pi pi-reply" class="p-button-rounded p-button-success"
+                                    (click)="openreply(rec)"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <!-- Reply Dialog -->
+        <p-dialog [(visible)]="recreplyDialog" [style]="{width: '800px'}" header="Reply to Report" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="p-grid" style="gap: 20px;">
+                    <!-- Left Side: Reply Form -->
+                    <div class="p-col-6">
+                        <div class="p-field">
+                            <label for="subject" class="p-text-bold" style="color: #4A90E2;">Subject</label>
+                            <textarea 
+                                pInputTextarea 
+                                id="subject" 
+                                [(ngModel)]="formData[0]" 
+                                placeholder="Enter subject..." 
+                                rows="2"
+                                style="border-radius: 6px; box-shadow: 0px 1px 4px rgba(0,0,0,0.1); width: 100%;">
+                            </textarea>
+                            <small *ngIf="submitted && !formData[0]" class="p-error" style="color: red;">Subject is required.</small>
+                        </div>
+        
+                        <div class="p-field">
+                            <label for="content" class="p-text-bold" style="color: #4A90E2;">Content</label>
+                            <textarea 
+                                pInputTextarea 
+                                id="content" 
+                                [(ngModel)]="formData[1]" 
+                                placeholder="Enter reply content..." 
+                                rows="5"
+                                style="border-radius: 6px; box-shadow: 0px 1px 4px rgba(0,0,0,0.1); width: 100%;">
+                            </textarea>
+                            <small *ngIf="submitted && !formData[1]" class="p-error" style="color: red;">Content is required.</small>
+                        </div>
+                    </div>
+        
+                    <!-- Right Side: Chatbot -->
+                    <div class="p-col-6 p-d-flex p-flex-column" style="border-left: 1px solid #e0e0e0;">
+                        <div class="p-text-bold" style="margin-bottom: 10px; color: #4A90E2; font-size: 16px;">
+                            AI Assistant
+                        </div>
+                        <div class="p-flex-1" style="max-height: 300px; overflow-y: auto; background: #f8f9fa; border-radius: 6px; box-shadow: inset 0px 1px 4px rgba(0,0,0,0.1); padding: 10px;">
+                            <div *ngFor="let message of chatMessages" class="p-mb-2">
+                                <div *ngIf="message.sender === 'user'" style="text-align: left;">
+                                    <span style="background: #dcf8c6; padding: 8px 12px; border-radius: 10px; display: inline-block; max-width: 80%;">
+                                        {{ message.content }}
+                                    </span>
+                                </div>
+                                <div *ngIf="message.sender === 'bot'" style="text-align: right;">
+                                    <span style="background: #e2e3e5; padding: 8px 12px; border-radius: 10px; display: inline-block; max-width: 80%;">
+                                        {{ message.content }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-d-flex p-jc-between p-ai-center" style="margin-top: 10px;">
+                            <input pInputText [(ngModel)]="userMessage" placeholder="Ask the assistant..." style="flex: 1; margin-right: 10px;" />
+                            <button pButton icon="pi pi-send" class="p-button-rounded p-button-success" (click)="sendMessageToBot()"></button>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        
+            <!-- Footer -->
+            <ng-template pTemplate="footer">
+                <div class="p-d-flex p-jc-end">
+                    <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-outlined p-mr-2" 
+                            style="color: #6c757d; border-color: #6c757d;" (click)="hideDialog()"></button>
+                    <button pButton pRipple label="Send Reply" icon="pi pi-send" class="p-button-raised p-button-info"
+                            style="background-color: #4A90E2; border-color: #4A90E2; color: white;" 
+                            (click)="sendreply()"></button>
+                </div>
+            </ng-template>
+        </p-dialog>
+
+        <!-- Delete Confirmation Dialog -->
+        <p-dialog [(visible)]="deleteRecDialog" header="Confirm Delete" [modal]="true" [style]="{width:'450px'}">
+            <div class="p-d-flex p-ai-center p-jc-center">
+                <i class="pi pi-exclamation-triangle" style="font-size: 2rem; color: #E74C3C;"></i>
+                <p class="p-ml-3">Are you sure you want to delete <b>{{ rec.subject || 'this report' }}</b>?</p>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="No" icon="pi pi-times" class="p-button-outlined" 
+                        style="color: #6c757d; border-color: #6c757d;" (click)="deleteRecDialog = false"></button>
+                <button pButton pRipple label="Yes" icon="pi pi-check" class="p-button-danger" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <!-- View Report Details Dialog -->
+        <p-dialog [(visible)]="readRecDialog" [style]="{width: '600px'}" header="Report Details" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="p-grid p-align-center" style="gap: 15px;">
+                    <!-- Employee Name -->
+                    <div class="p-col-6 field">
+                        <label class="p-text-bold" style="font-size: 14px; color: #6C757D;">Employee Name</label>
+                        <p class="p-mt-1 p-text-secondary" style="font-size: 16px; color: #333;">
+                            {{ getEmployeeFirstName(rec.employee_id) }}
+                        </p>
+                    </div>
+        
+                    <!-- Subject -->
+                    <div class="p-col-6 field">
+                        <label class="p-text-bold" style="font-size: 14px; color: #6C757D;">Subject</label>
+                        <p class="p-mt-1 p-text-secondary" style="font-size: 16px; color: #333;">
+                            {{ rec.subject || 'No subject available' }}
+                        </p>
+                    </div>
+        
+                    <!-- Content -->
+                    <div class="p-col-12 field">
+                        <label class="p-text-bold" style="font-size: 14px; color: #6C757D;">Content</label>
+                        <div style="padding: 10px; border-radius: 6px; background-color: #f8f9fa; box-shadow: inset 0px 1px 4px rgba(0,0,0,0.1);">
+                            <p class="p-mt-0 p-text-secondary" style="font-size: 15px; line-height: 1.5; color: #495057;">
+                                {{ rec.content || 'No content available' }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <div class="p-d-flex p-jc-end">
+                    <button pButton pRipple label="Close" icon="pi pi-times" class="p-button-outlined p-mr-2"
+                            style="color: #6c757d; border-color: #6c757d;" 
+                            (click)="hideDialog()">
+                    </button>
+                </div>
+            </ng-template>
+        </p-dialog>
+        
+        
+    </div>
+</div>

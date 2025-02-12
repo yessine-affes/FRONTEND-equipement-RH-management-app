@@ -1,0 +1,314 @@
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="New Equipment" icon="pi pi-plus" class="p-button-success mr-2" (click)="navigateToAddEquipements()"></button>
+                    </div>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt 
+                     [value]="equips" 
+                     responsiveLayout="scroll" 
+                     [rows]="10" 
+                     [globalFilterFields]="['id', 'name', 'status', 'taskId', 'type']" 
+                     [paginator]="true" 
+                     [rowsPerPageOptions]="rowsPerPageOptions" 
+                     [showCurrentPageReport]="true" 
+                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" 
+                     [(selection)]="selectedEquips" 
+                     selectionMode="multiple" 
+                     [rowHover]="true" 
+                     dataKey="id">
+                
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Manage Equipment</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Search..." class="w-full sm:w-auto" />
+                        </span>
+                    </div>
+                </ng-template>
+                
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+                        <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                        <th pSortableColumn="type">Type <p-sortIcon field="type"></p-sortIcon></th>
+                        <th pSortableColumn="availability">Availability <p-sortIcon field="availability"></p-sortIcon></th>
+                        <th pSortableColumn="photo">Photo <p-sortIcon field="photo"></p-sortIcon></th>
+                        <th pSortableColumn="maintenanceSchedule">Operations <p-sortIcon field="maintenanceSchedule"></p-sortIcon></th>
+                    </tr>
+                </ng-template>
+                
+                <ng-template pTemplate="body" let-equip>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="equip"></p-tableCheckbox>
+                        </td>
+                        <td style="width: 14%; min-width: 10rem;">
+                            <span class="p-column-title">Name</span>
+                            {{ equip.name }}
+                        </td>
+                        <td style="width: 14%; min-width: 10rem;">
+                            <span class="p-column-title">Status</span>
+                            {{ equip.status }}
+                        </td>
+                        <td style="width: 14%; min-width: 10rem;">
+                            <span class="p-column-title">Type</span>
+                            {{ equip.type }}
+                        </td>
+                        <td style="width: 14%; min-width: 10rem;">
+                            <span class="p-column-title">Availability</span>
+                            {{ equip.availability ? 'Available' : 'Not Available' }}
+                        </td>
+                        <td>
+                            <img [src]="'http://127.0.0.1:8000/api/image/' + equip.photo" 
+                                 alt="Equip Image" 
+                                 style="border-radius: 70px; margin-right: 50px;" 
+                                 width="80"
+                                 (error)="setFallbackImage($event)" />
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-info mr-2" 
+                                (click)="readEquip(equip)"></button>
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editEquip(equip)" ></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteEquip(equip)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <!-- New Equipment Dialog -->
+        <p-dialog header="Equipement" [(visible)]="equipDialog" [style]="{width: '450px'}" [closable]="false">
+            <div class="p-fluid">
+              <div class="p-field">
+                <label for="name">Name</label>
+                <input id="name" [(ngModel)]="equip.name" type="text" pInputText required />
+              </div><br>
+          
+              <div class="p-field">
+                <label for="status">Status</label>
+                <p-dropdown
+                  id="status"
+                  [(ngModel)]="equip.status"
+                  [options]="statuses"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="Select Status"
+                  required
+                ></p-dropdown>
+              </div><br>
+          
+              <!-- Availability Dropdown (like in Edit Equipment) -->
+              <div class="p-field">
+                <label for="availability">Availability</label>
+                <p-dropdown
+                  id="availability"
+                  [(ngModel)]="equip.availability"
+                  [options]="availabilityOptions"
+                  optionLabel="label"
+                  optionValue="value"
+                  placeholder="Select Availability"
+                  required
+                ></p-dropdown>
+              </div><br>
+          
+              <!-- Type Input (replacing the dropdown with a text input) -->
+              <div class="p-field">
+                <label for="type">Type</label>
+                <input id="type" [(ngModel)]="equip.type" type="text" pInputText placeholder="Enter Type" />
+              </div><br>
+          
+              <div class="p-field">
+                <label for="photo">Photo</label>
+                <input type="file" id="photo" (change)="onFileChange($event)" accept="image/*" />
+                <small *ngIf="imageError" class="p-error">{{ imageError }}</small>
+              </div><br>
+          
+              <p-footer class="pt-4 mt-5 border-top-1 surface-border">
+                <button pButton label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton label="Add" icon="pi pi-check" class="p-button-text" (click)="saveEquip()"></button>
+              </p-footer>
+            </div>
+          </p-dialog>
+          
+        
+
+        <!-- Delete Confirmation Dialog -->
+        <p-dialog [(visible)]="deleteEquipDialog" header="Confirm" [modal]="true" style="width: 350px">
+            <ng-template pTemplate="content">
+                <span>Are you sure you want to delete this equipment?</span>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button pButton label="No" icon="pi pi-times" (click)="deleteEquipDialog = false"></button>
+                <button pButton label="Yes" icon="pi pi-check" (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
+
+
+        <!-- Edit Equipment Dialog -->
+       <!-- <p-dialog [(visible)]="equipeditDialog" [style]="{width: '450px'}" header="Edit Equipment Details" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="name">Name</label>
+                    <input type="text" pInputText id="name" [(ngModel)]="equip.name" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !equip.name}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !equip.name">Name is required.</small>
+                </div>
+
+                <div class="field">
+                    <label for="status">Status</label>
+                    <p-dropdown [(ngModel)]="equip.status" inputId="status" [options]="statuses" placeholder="Select Status">
+                        <ng-template pTemplate="selectedItem">
+                            <span *ngIf="equip && equip.status">{{ equip.status }}</span>
+                        </ng-template>
+                        <ng-template let-option pTemplate="item">
+                            <span>{{ option.label }}</span>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
+                
+
+                <div class="field">
+                    <label for="type">Type</label>
+                    <input type="text" pInputText id="type" [(ngModel)]="equip.type" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !equip.type}"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !equip.type">Type is required.</small>
+                </div>
+
+                <div class="field">
+                    <label for="availability">Availability</label>
+                    <p-checkbox [(ngModel)]="equip.availability" binary="true" inputId="availability"></p-checkbox>
+                </div>
+                
+
+                <div class="field col-12">
+                    <label for="image">Photo</label><br>
+                    <input type="file" id="image" (change)="onFileSelected($event)" />
+                    <div *ngIf="imageError">
+                        <small class="p-error">{{ imageError }}</small>
+                    </div>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
+                <button pButton pRipple label="Update" icon="pi pi-check" class="p-button-text" (click)="updateEquip()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
+-->
+
+
+
+
+
+<!--
+<p-dialog 
+    [(visible)]="equipeditDialog" 
+    [style]="{width: '450px'}" 
+    header="Equipment Details" 
+    [modal]="true" 
+    class="p-fluid">
+
+    <ng-template pTemplate="content">
+        <div class="field">
+            <label for="name">Name</label>
+            <input 
+                type="text" 
+                pInputText 
+                id="name" 
+                [(ngModel)]="equipement.name" 
+                required 
+                [ngClass]="{'ng-invalid ng-dirty': submitted && !equipement.name}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !equipement.name">Name is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="status">Status</label>
+            <p-dropdown 
+                [(ngModel)]="equipement.status" 
+                inputId="status" 
+                [options]="[{ label: 'Pending', value: 'Pending' }, { label: 'In Progress', value: 'In Progress' }, { label: 'Completed', value: 'Completed' }]"
+                placeholder="Select Status" 
+                required 
+                [ngClass]="{'ng-invalid ng-dirty': submitted && !equipement.status}"></p-dropdown>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !equipement.status">Status is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="task_id">Task ID</label>
+            <input 
+                type="number" 
+                pInputText 
+                id="task_id" 
+                [(ngModel)]="equipement.task_id" 
+                required 
+                [ngClass]="{'ng-invalid ng-dirty': submitted && equipement.task_id === null}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && equipement.task_id === null">Task ID is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="type">Type</label>
+            <input 
+                type="text" 
+                pInputText 
+                id="type" 
+                [(ngModel)]="equipement.type" 
+                required 
+                [ngClass]="{'ng-invalid ng-dirty': submitted && !equipement.type}"/>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !equipement.type">Type is required.</small>
+        </div>
+
+        <div class="field">
+            <label for="availability">Availability</label>
+            <p-checkbox 
+                [(ngModel)]="equipement.availability" 
+                id="availability" 
+                binary="true"></p-checkbox>
+            <label for="availability">Available</label>
+        </div>
+
+        <div class="field">
+            <label for="maintenance_schedule">Maintenance Schedule</label>
+            <p-calendar 
+                id="maintenance_schedule" 
+                [(ngModel)]="equipement.maintenanceSchedule" 
+                [showIcon]="true" 
+                required 
+                [ngClass]="{'ng-invalid ng-dirty': submitted && !equipement.maintenanceSchedule}"></p-calendar>
+            <small class="ng-dirty ng-invalid" *ngIf="submitted && !equipement.maintenanceSchedule">Maintenance schedule is required.</small>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="footer">
+        <button 
+            pButton 
+            pRipple 
+            label="Cancel" 
+            icon="pi pi-times" 
+            class="p-button-text" 
+            (click)="hideDialog()"></button>
+        <button 
+            pButton 
+            pRipple 
+            label="Save" 
+            icon="pi pi-check" 
+            class="p-button-text" 
+            (click)="saveEditEquipement()"></button>
+    </ng-template>
+</p-dialog>
+-->

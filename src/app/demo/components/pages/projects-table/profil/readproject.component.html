@@ -1,0 +1,48 @@
+<div class="surface-section p-4 md:p-6 lg:p-8">
+  <div class="font-medium text-3xl text-primary mb-4">
+    <p-toast></p-toast>
+    <i class="pi pi-folder mr-2" style="height: 30px; width: 40px; font-size: 40px;"></i>
+    Project Information
+  </div>
+  <div class="text-secondary mb-6">Browse your project details below.</div>
+
+  <div class="surface-card p-5 shadow-2 border-round">
+    <ul class="list-none p-0 m-0">
+     
+      <!-- Project Title -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-bold">Title</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ project?.title }}</div>
+      </li>
+
+      <!-- Project Description -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-bold">Description</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ project?.description }}</div>
+      </li>
+
+      <!-- Start Date -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-bold">Start Date</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ project?.start_date | date }}</div>
+      </li>
+
+      <!-- End Date -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-bold">End Date</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ project?.end_date | date }}</div>
+      </li>
+
+      <!-- Status -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-bold">Status</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ project?.status }}</div>
+      </li>
+    </ul>
+    <div class="mt-4">
+      <button pButton label="View Tasks" icon="pi pi-file" class="p-button-info" (click)="navigatetoTasks()"></button>
+    </div>
+
+   
+  </div>
+</div>

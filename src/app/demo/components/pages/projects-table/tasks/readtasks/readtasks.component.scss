@@ -1,0 +1,163 @@
+/* General Section Styling */
+.surface-section {
+  background-color: #f9fafc;
+  font-family: 'Arial', sans-serif;
+}
+
+.surface-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.surface-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Task Card Styling */
+.task-card {
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.task-card:hover {
+  border-color: #1976d2;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Task Header */
+.task-header {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.task-index {
+  font-size: 0.9rem;
+  font-weight: bold;
+  background: #1976d2;
+  padding: 0.4rem 0.6rem;
+  display: inline-block;
+  color: white;
+}
+
+.status-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.status-badge.ongoing {
+  background-color: #ff9800;
+  color: white;
+}
+
+.status-badge.completed {
+  background-color: #4caf50;
+  color: white;
+}
+
+.status-badge.pending {
+  background-color: #f44336;
+  color: white;
+}
+
+/* Text Styling */
+.text-primary {
+  font-weight: 600;
+  color: #1976d2;
+}
+
+.text-secondary {
+  color: #555;
+  line-height: 1.5;
+}
+
+.text-primary:hover {
+  color: #0d47a1;
+}
+
+/* Dates Styling */
+.dates i {
+  color: #1976d2;
+}
+
+.dates div {
+  margin-bottom: 0.5rem;
+}
+
+/* Loading and Empty States */
+.text-lg {
+  font-size: 1.2rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* Button Styling */
+.p-button-info {
+  background: linear-gradient(to right, #1976d2, #42a5f5);
+  border: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.p-button-info:hover {
+  background: linear-gradient(to right, #1565c0, #2196f3);
+  transform: translateY(-2px);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.surface-card {
+  animation: fadeIn 0.8s ease-in-out;
+}
+/* Task Description Styling */
+.task-details .description {
+  font-size: 1.1rem;  /* Slightly larger font size */
+  font-weight: bold;  /* Make it bold */
+  margin-bottom: 0.5rem; /* A bit of space below it */
+  color: #1976d2;  /* Optional, you can style as desired */
+}
+
+/* Task Description Text */
+/* Task Description Styling */
+.task-details .description {
+  font-size: 1.2rem;  /* Slightly larger font size */
+  font-weight: bold;  /* Make it bold */
+  margin-bottom: 0.5rem; /* A bit of space below it */
+  color: #1976d2; 
+  transform: translateY(-10px); /* Optional color for the label */
+}
+
+/* Task Description Text Styling */
+.task-description {
+  font-size: 1.2rem;  /* Size for the description */
+  font-weight: bold;  /* Keep the text normal */
+  margin-top: 0.2rem;  /* Move it slightly to the top */
+  color: #c44721;
+  margin-top: 1rem; 
+   transform: translateY(-10px); /* Attractive color for the description */
+}
+
+
+/* Dates Styling */
+.dates i {
+  color: #1976d2;
+}
+
+.dates div {
+  margin-bottom: 0.5rem;
+}

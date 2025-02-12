@@ -1,0 +1,98 @@
+.error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+  /* General Section Styling */
+.surface-section {
+  background-color: #f9fafc;
+}
+
+.surface-card {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.surface-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* List Item Styling */
+ul.list-none li {
+  position: relative;
+  padding-left: 2rem;
+}
+
+ul.list-none li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 10px;
+  width: 10px;
+  background-color: #4caf50; /* Green dot */
+  border-radius: 50%;
+}
+
+ul.list-none li:hover {
+  background: #e3f2fd; /* Light blue hover effect */
+  border-radius: 5px;
+}
+
+/* Text Styling */
+.text-primary {
+  font-weight: 600;
+}
+
+.text-secondary {
+  color: #757575;
+}
+
+.text-primary:hover {
+  color: #1976d2;
+}
+
+/* Button Styling */
+.p-button-info {
+  background: linear-gradient(to right, #1976d2, #42a5f5);
+  border: none;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.p-button-info:hover {
+  background: linear-gradient(to right, #1565c0, #2196f3);
+  transform: translateY(-2px);
+}
+
+/* Icon Animation */
+.pi-folder {
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Card Animation */
+.surface-card {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

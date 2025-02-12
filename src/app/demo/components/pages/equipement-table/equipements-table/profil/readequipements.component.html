@@ -1,0 +1,53 @@
+<div class="surface-section p-4 md:p-6 lg:p-8">
+  <div class="font-medium text-3xl text-primary mb-4">
+    <p-toast></p-toast>
+    
+    Equipment Information
+  </div>
+  <div class="text-secondary mb-6">Manage your equipment details below.</div>
+
+  <div class="surface-card p-5 shadow-2 border-round">
+    <ul class="list-none p-0 m-0">
+      <!-- Photo -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-medium">Photo</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">
+          <img [src]="'http://127.0.0.1:8000/api/image/' + equip.photo" alt="Equipment Photo" style="width: 50px; height: 50px; border-radius: 10%;" />
+        </div>
+      </li>
+      <!-- Name -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-medium">Name</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ equip?.name }}</div>
+      </li>
+      <!-- Status -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-medium">Status</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ equip?.status }}</div>
+      </li>
+      <!-- Type -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-medium">Type</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ equip?.type }}</div>
+      </li>
+      <!-- Availability -->
+      <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+        <div class="text-secondary w-6 md:w-2 font-medium">Availability</div>
+        <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">{{ equip?.availability ? 'Available' : 'Not Available' }}</div>
+      </li>
+     <!-- Maintenance Schedule Calendar -->
+     <li class="flex align-items-center py-4 px-3 border-top-1 surface-border flex-wrap">
+      <div class="text-secondary w-6 md:w-2 font-medium">Maintenance Schedule</div>
+      <div class="text-primary w-full md:w-8 md:flex-order-0 flex-order-1">
+        <p-calendar 
+          [inline]="true" 
+          [disabledDates]="maintenanceSchedule" 
+          selectionMode="multiple">
+        </p-calendar>
+      </div>
+    </li>
+    
+    
+    </ul>
+  </div>
+</div>

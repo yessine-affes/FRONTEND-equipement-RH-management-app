@@ -1,0 +1,70 @@
+<div class="surface-section p-4 md:p-6 lg:p-8">
+  <div class="font-medium text-3xl text-primary mb-4">
+    <p-toast></p-toast>
+    <i class="pi pi-cog mr-2" style="height: 30px; width: 40px; font-size: 40px;"></i>
+    Add Equipement
+  </div>
+  <div class="text-secondary mb-6">Fill all the fields.</div>
+
+  <div class="surface-card p-5 shadow-2 border-round p-fluid">
+    
+    <!-- Photo Input -->
+    <div class="field mb-4">
+      <label for="photo">Photo</label>
+      <input type="file" id="photo" (change)="onFileChange($event)" accept="image/*" />
+      <div *ngIf="imageError">
+        <small class="p-error">{{ imageError }}</small>
+      </div>
+    </div>
+
+    <!-- Name Input -->
+    <div class="field mb-4">
+      <label for="name">Name</label>
+      <input type="text" pInputText id="name" [(ngModel)]="equip.name" required />
+      <small class="p-error" *ngIf="submitted && !equip.name">Name is required.</small>
+    </div>
+
+    <!-- Status Input -->
+    <div class="field mb-4">
+      <label for="status">Status</label>
+      <p-dropdown 
+        id="status" 
+        [(ngModel)]="equip.status" 
+        [options]="statuses" 
+        optionLabel="label" 
+        optionValue="value" 
+        placeholder="Select Status" 
+        required>
+      </p-dropdown>
+      <small class="p-error" *ngIf="submitted && !equip.status">Status is required.</small>
+    </div>
+
+    <!-- Type Input -->
+    <div class="field mb-4">
+      <label for="type">Type</label>
+      <input type="text" pInputText id="type" [(ngModel)]="equip.type" placeholder="Enter Type" required />
+      <small class="p-error" *ngIf="submitted && !equip.type">Type is required.</small>
+    </div>
+
+    <!-- Availability Dropdown -->
+    <div class="field">
+      <label for="availability">Availability</label>
+      <p-dropdown 
+        [options]="availabilityOptions" 
+        [(ngModel)]="equip.availability" 
+        optionLabel="label" 
+        optionValue="value" 
+        placeholder="Select Availability">
+      </p-dropdown>
+    </div>
+
+    <!-- Maintenance Schedule Calendar -->
+    
+
+    <!-- Action Buttons -->
+    <div class="flex justify-between mt-4">
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text p-button-danger box-btn mr-3" (click)="navigateToEquipementsTable()"></button>
+      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text p-button-success box-btn" (click)="saveEquip()"></button>
+    </div>
+  </div>
+</div>

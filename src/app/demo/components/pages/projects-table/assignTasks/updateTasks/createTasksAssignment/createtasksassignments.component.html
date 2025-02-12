@@ -1,0 +1,104 @@
+<!-- Task Table -->
+<div class="surface-section p-4 md:p-6 lg:p-8" *ngIf="!showAddDialog">
+  <p-toast></p-toast>
+  <div class="font-medium text-3xl text-primary mb-4">
+    <i class="pi pi-tasks mr-2" style="font-size: 40px;"></i>
+    Tasks for Project {{ project_id }}
+  </div>
+
+  <div class="surface-card p-5 shadow-2 border-round">
+    <p-table [value]="tasks" [paginator]="true" [rows]="10">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-task>
+        <tr>
+          <td>{{ task.description }}</td>
+          <td>{{ task.status }}</td>
+          <td>{{ task.start_date }}</td>
+          <td>{{ task.end_date }}</td>
+          <td>
+            <button
+              pButton
+              pRipple
+              label="Assign"
+              icon="pi pi-user-plus"
+              class="p-button-rounded p-button-info"
+              (click)="assignTask(task.id)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div *ngIf="showAddDialog" class="surface-section p-4 md:p-6 lg:p-8">
+  <div class="font-medium text-3xl text-primary mb-4">
+    <i class="pi pi-user-plus mr-2" style="font-size: 40px;"></i>
+    Add Assignments 
+  </div>
+<div  class="add-form-container" style="max-width: 600px; margin: 0 auto;">
+  <p-toast></p-toast>
+  <h3 class="text-2xl font-medium mb-4">Add Assignment for Task {{currentTask}}</h3>
+
+  <div class="field mb-3">
+    <label for="employee_id_add" class="block font-medium mb-2">Employee</label>
+    <p-dropdown
+      [options]="employees"
+      optionLabel="name"
+      optionValue="id"
+      [(ngModel)]="newAssignment.employee_id"
+      id="employee_id_add"
+      placeholder="Select an Employee"
+      class="w-full"
+    ></p-dropdown>
+  </div>
+
+  <div class="field mb-3">
+    <label for="equipment_id_add" class="block font-medium mb-2">Equipment</label>
+    <p-dropdown
+      [options]="equipments"
+      optionLabel="name"
+      optionValue="id"
+      [(ngModel)]="newAssignment.equipment_id"
+      id="equipment_id_add"
+      placeholder="Select an Equipment"
+      class="w-full"
+    ></p-dropdown>
+  </div>
+
+  <div class="field mb-3">
+    <label for="assigned_date_add" class="block font-medium mb-2">Assigned Date</label>
+    <input
+      id="assigned_date_add"
+      pInputText
+      type="date"
+      [(ngModel)]="newAssignment.assigned_date"
+      class="w-full"
+    />
+  </div>
+
+  <div class="field mb-3">
+    <label for="completion_date_add" class="block font-medium mb-2">Completion Date</label>
+    <input
+      id="completion_date_add"
+      pInputText
+      type="date"
+      [(ngModel)]="newAssignment.completion_date"
+      class="w-full"
+    />
+  </div>
+
+  <div class="flex justify-end mt-4">
+    <button pButton label="Cancel" class="p-button-text mr-2" (click)="cancelAdd()"></button>
+    <button pButton label="Save" class="p-button-primary" (click)="confirmAdd()"></button>
+  </div>
+  
+</div>
+</div>

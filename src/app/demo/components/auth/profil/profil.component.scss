@@ -1,0 +1,19 @@
+.error {
+    color: red;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+  }
+
+  .p-inputtext-sm {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+}
+
+.p-inputtext-sm:focus {
+    border-color: #ccc;
+    
+}

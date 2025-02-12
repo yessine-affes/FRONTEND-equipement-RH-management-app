@@ -1,0 +1,77 @@
+<div class="surface-section p-4 md:p-6 lg:p-8">
+  <div class="font-medium text-3xl text-primary mb-4">
+    <p-toast></p-toast>
+    <i class="pi pi-folder mr-2" style="height: 30px; width: 40px; font-size: 40px;"></i>
+    Tasks for Project 
+  </div>
+  <div class="text-secondary mb-6">Explore the detailed tasks for this project.</div>
+
+  <!-- Display when loading -->
+  <p *ngIf="taskLoading" class="text-secondary text-lg text-center">Loading tasks...</p>
+
+  <!-- Display if no tasks -->
+  <p *ngIf="!taskLoading && tasks.length === 0" class="text-secondary text-lg text-center">
+    No tasks found for this project.
+  </p>
+
+  <!-- Display tasks -->
+  <div *ngIf="tasks.length > 0">
+    <div *ngFor="let task of tasks; let i = index" class="task-card surface-card p-4 mb-4 shadow-2 border-round">
+      <!-- Task Header -->
+      <div class="task-header text-lg text-primary flex align-items-center mb-3">
+        <span class="status-badge ml-auto" [ngClass]="getStatusClass(task.status)">{{ task.status }}</span>
+      </div>
+
+      <!-- Task Details -->
+      <div class="task-details text-secondary mb-3">
+        <p class="description mb-2">
+          <strong>Task Description: </strong> 
+          <span class="task-description">{{ task.description | titlecase }}</span>
+        </p>
+        
+        <div class="dates flex justify-content-between flex-wrap text-sm">
+          <div>
+            <i class="pi pi-calendar mr-2"></i>
+            <strong>Start Date:</strong> {{ task.start_date | date }}
+          </div>
+          <div>
+            <i class="pi pi-clock mr-2"></i>
+            <strong>Due Date:</strong> {{ task.due_date | date }}
+          </div>
+          <div>
+            <i class="pi pi-calendar-times mr-2"></i>
+            <strong>End Date:</strong> {{ task.end_date | date }}
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button pButton label="View Assignments" icon="pi pi-file" class="p-button-info" (click)="toggleAssignments(task.id)"></button>
+        </div>
+      </div>
+
+      <!-- Assignments Table (conditionally rendered) -->
+      <div *ngIf="taskVisibility[task.id]" class="mt-4">
+        <p-table [value]="taskAssignments" responsiveLayout="scroll">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Assigned Employee</th>
+              <th>Assigned Equipment</th>
+              <th>Assigned Date</th>
+              <th>Completion Date</th>
+              <th>Status</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-assignment>
+            <tr>
+              <td>{{ assignment.employee_id }}</td>
+              <td>{{ assignment.equipment_id }}</td>
+              <td>{{ assignment.assigned_date | date }}</td>
+              <td>{{ assignment.completion_date | date }}</td>
+              <td>{{ assignment.status }}</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>

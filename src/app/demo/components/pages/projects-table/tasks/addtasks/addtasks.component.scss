@@ -1,0 +1,23 @@
+:host {
+  display: block;
+
+  .surface-section {
+    background-color: #f9f9f9;
+  }
+
+  .surface-card {
+    background-color: #ffffff;
+  }
+
+  .p-button {
+    min-width: 100px;
+  }
+
+  .p-dropdown {
+    width: 100%;
+  }
+
+  .p-calendar {
+    width: 100%;
+  }
+}

@@ -1,0 +1,58 @@
+<div class="add-certification-container">
+    <h2>Add Certification</h2>
+    <form (ngSubmit)="addCertification()" class="p-fluid">
+      <div class="field">
+        <label for="name">Certification Name</label>
+        <input
+          type="text"
+          id="name"
+          [(ngModel)]="certification.name"
+          name="name"
+          pInputText
+          required
+        />
+      </div>
+  
+      <div class="field">
+        <label for="issuer">Issuer</label>
+        <input
+          type="text"
+          id="issuer"
+          [(ngModel)]="certification.issuer"
+          name="issuer"
+          pInputText
+          required
+        />
+      </div>
+  
+      <div class="field">
+        <label for="issue_date">Issue Date</label>
+        <input
+          type="date"
+          id="issue_date"
+          [(ngModel)]="certification.issue_date"
+          name="issue_date"
+          pInputText
+          required
+        />
+      </div>
+  
+      <div class="field">
+        <label for="expiry_date">Expiry Date</label>
+        <input
+          type="date"
+          id="expiry_date"
+          [(ngModel)]="certification.expiry_date"
+          name="expiry_date"
+          pInputText
+          required
+        />
+      </div>
+  
+      <div class="form-actions">
+        <button type="submit" pButton label="Save"></button>
+        <button type="button" pButton label="Cancel" class="p-button-secondary" (click)="router.navigate(['/employee-table'])"></button>
+      </div>
+    </form>
+  </div>
+  

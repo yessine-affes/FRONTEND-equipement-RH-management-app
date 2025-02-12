@@ -1,0 +1,158 @@
+<!-- Main Wrapper <div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    
+    <div class="flex flex-column align-items-center justify-content-center w-full">
+        <div
+            style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); width: 100%; max-width: 1200px;">
+            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px; background-color: #fff; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+                
+                
+                <div class="text-center mb-5">-->
+<div class="surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden">
+    <div class="flex flex-column align-items-center justify-content-center">
+        <div
+            style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+            <div class="w-full surface-card py-8 px-5 sm:px-8" style="border-radius:53px">
+                <div class="text-center mb-5">
+                    <img src="assets/demo/images/ocplogo.jpg" alt="Logo" height="100" class="mb-4" style="border-radius: 12px;">
+                    <div class="text-900 text-4xl font-bold mb-2" style="letter-spacing: 1px;">Welcome Back!</div>
+                    <span *ngIf="!isEmployeeMode" class="text-600 font-medium text-lg">Sign in to continue</span>
+                    <span *ngIf="isEmployeeMode" class="text-600 font-medium text-lg">Enter your email to check your assignments</span>
+                </div>
+
+                <!-- Employee Mode -->
+                <ng-container *ngIf="isEmployeeMode && tasksFetched; else defaultView">
+                    <h3 class="text-900 text-3xl font-medium mb-4 text-center">Assigned Tasks</h3>
+                    <table class="w-full table-auto border-collapse border">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="text-left p-3 border-b">Task</th>
+                                <th class="text-left p-3 border-b">Start Date</th>
+                                <th class="text-left p-3 border-b">End Date</th>
+                                <th class="text-left p-3 border-b">Status</th>
+                                <th class="text-center p-3 border-b">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let task of tasks" class="hover:bg-gray-100">
+                                <td class="p-3 border-b">{{ task.task_id }}</td>
+                                <td class="p-3 border-b">{{ task.assigned_date }}</td>
+                                <td class="p-3 border-b">{{ task.completion_date }}</td>
+                                <td class="p-3 border-b">{{ task.status }}</td>
+                                <td class="p-3 border-b text-center">
+                                    <button pButton pRipple label="View" class="p-button-sm p-button-info"
+                                        (click)="viewTaskDetails(task)"></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="mt-2"  >
+                    <a class="font-medium no-underline text-lg cursor-pointer " 
+                                        style="color: var(--primary-color)" [routerLink]="['/']" (click)="isEmployeeMode = false">Back to Admin login ?</a>
+                                    </div>
+                </ng-container>
+
+                <!-- Default View (Login or Employee Email Input) -->
+                <ng-template #defaultView>
+                    <ng-container *ngIf="isEmployeeMode; else loginForm">
+                        <!-- Employee Email Input -->
+                        <form (ngSubmit)="onEmployeeSubmit()" class="flex flex-column align-items-center">
+                            <label for="employeeEmail" class="block text-900 text-xl font-medium mb-2">Enter Your Email</label>
+                            <input id="employeeEmail" type="email" placeholder="Email address" pInputText
+                                class="w-full md:w-30rem mb-5 p-3" style="border: 1px solid #ccc; border-radius: 8px;" [(ngModel)]="employeeEmail" name="employeeEmail" required>
+                            <button pButton pRipple label="Submit" class="w-full p-3 text-xl" type="submit"
+                                style="background: linear-gradient(90deg, var(--primary-color), #6d83f2); color: white; border-radius: 8px; border: none; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></button>
+                                <div class="flex align-items-center justify-content-between mt-4 mb-4">
+                                    <a class="font-medium no-underline text-lg cursor-pointer"
+                                        style="color: var(--primary-color)" [routerLink]="['/']" (click)="isEmployeeMode = false">Back to Admin login ?</a>
+                                </div>
+                            </form>
+                    </ng-container>
+
+                    <!-- Login Form -->
+                    <ng-template #loginForm>
+                        <form (ngSubmit)="onSubmit()" class="flex flex-column align-items-center">
+                            <div class="w-full md:w-30rem">
+                                <label for="email1" class="block text-900 text-xl font-medium mb-2">Email</label>
+                                <input id="email1" type="text" placeholder="Email address" pInputText
+                                    class="w-full mb-4 p-3" style="border: 1px solid #ccc; border-radius: 8px;" [(ngModel)]="email" name="email" required>
+
+                                <label for="password1" class="block text-900 font-medium text-xl mb-2">Password</label>
+                                <p-password id="password1" [(ngModel)]="password" placeholder="Password"
+                                    [toggleMask]="true" styleClass="mb-4"  inputStyleClass="w-full p-3 md:w-30rem"
+                                    style="border-radius: 8px;" name="password" required></p-password>
+
+                              <!--   <div class="flex align-items-center justify-content-between mb-4">
+                                    <a class="font-medium no-underline text-lg cursor-pointer"
+                                        style="color: var(--primary-color)" [routerLink]="['./register']">Not Registered yet?</a>
+                                </div> -->
+
+                                <button pButton pRipple label="Sign In" class="w-full p-3 text-xl"
+                                    style="background: linear-gradient(90deg, var(--primary-color), #6d83f2); color: white; border-radius: 8px; border: none; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);"></button>
+                            </div>
+                        </form>
+
+                        <!-- Are You an Employee Button -->
+                        <div class="text-center mt-5">
+                            <button 
+                                pButton 
+                                pRipple 
+                                label="Are You an Employee?" 
+                                class="p-button-rounded text-xl"
+                                (click)="toggleEmployeeMode()"
+                                style="background: linear-gradient(90deg, #6d83f2, var(--primary-color)); color: white; border: none; border-radius: 10px; padding: 12px 20px; font-weight: bold; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+                            </button>
+                        </div>
+                    </ng-template>
+                </ng-template>
+
+                <!-- Task Details Dialog -->
+                <p-dialog 
+                header="Task Details" 
+                [(visible)]="taskDialogVisible" 
+                [modal]="true" 
+                [style]="{ width: '40vw' }" 
+                [contentStyle]="{ 'padding': '1.5rem' }"
+                [baseZIndex]="10000">
+            
+                <div *ngIf="selectedTask" class="task-details">
+                    <div class="field">
+                        <span class="label"><strong>Task ID:</strong></span>
+                        <span class="value">{{ selectedTask.task_id }}</span>
+                    </div>
+                    <div class="field">
+                        <span class="label"><strong>Start Date:</strong></span>
+                        <span class="value">{{ selectedTask.assigned_date | date: 'longDate' }}</span>
+                    </div>
+                    <div class="field">
+                        <span class="label"><strong>End Date:</strong></span>
+                        <span class="value">{{ selectedTask.completion_date | date: 'longDate' }}</span>
+                    </div>
+                    <div class="field">
+                        <span class="label"><strong>Status:</strong></span>
+                        <span 
+                            class="value status" 
+                            [ngClass]="{
+                                'status-pending': selectedTask.status === 'Pending',
+                                'status-in-progress': selectedTask.status === 'In Progress',
+                                'status-completed': selectedTask.status === 'Completed'
+                            }">
+                            {{ selectedTask.status }}
+                        </span>
+                    </div>
+                </div>
+            
+                <footer class="footer">
+                    <button 
+                        pButton 
+                        pRipple 
+                        label="Close" 
+                        class="p-button-rounded p-button-secondary" 
+                        (click)="closeDialog()">
+                    </button>
+                </footer>
+            </p-dialog>
+            
+            </div>
+        </div>
+    </div>
+</div>

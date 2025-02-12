@@ -1,0 +1,72 @@
+<div class="surface-section p-4 md:p-6 lg:p-8">
+  <div class="font-medium text-3xl text-primary mb-4">
+    <i class="pi pi-tasks mr-2" style="font-size: 40px;"></i>
+    Add New Task
+  </div>
+
+  <!-- Add Task Form -->
+  <div class="surface-card p-5 shadow-2 border-round p-fluid">
+    <div class="field mb-4">
+      <label for="description">Description</label>
+      <textarea
+        pInputTextarea
+        id="description"
+        [(ngModel)]="task.description"
+        rows="3"
+        placeholder="Enter task description"
+        required
+      ></textarea>
+    </div>
+
+    <div class="field mb-4">
+      <label for="start_date">Start Date</label>
+      <p-calendar
+        id="start_date"
+        [(ngModel)]="task.start_date"
+        dateFormat="yy-mm-dd"
+        placeholder="Select start date"
+        required
+      ></p-calendar>
+    </div>
+
+    <div class="field mb-4">
+      <label for="end_date">End Date</label>
+      <p-calendar
+        id="end_date"
+        [(ngModel)]="task.end_date"
+        dateFormat="yy-mm-dd"
+        placeholder="Select end date"
+        required
+      ></p-calendar>
+    </div>
+
+    <div class="field mb-4">
+      <label for="status">Status</label>
+      <p-dropdown
+        [options]="statuses"
+        [(ngModel)]="task.status"
+        placeholder="Select task status"
+        required
+      ></p-dropdown>
+    </div>
+
+    <div class="flex justify-between mt-4">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text p-button-danger"
+        (click)="cancel()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="Save"
+        icon="pi pi-check"
+        class="p-button-text p-button-success"
+        (click)="saveTask()"
+      ></button>
+    </div>
+  </div>
+</div>

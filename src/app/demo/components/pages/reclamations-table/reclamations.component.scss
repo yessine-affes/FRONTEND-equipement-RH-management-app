@@ -1,0 +1,17 @@
+.content-text {
+    font-size: 16px;
+    color: #333333;
+    background-color: #F9F9F9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    line-height: 1.6;
+    border: 1px solid #E1E1E1;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+
+    &:hover {
+        transform: translateY(-2px);  // Lift the box slightly on hover
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);  // More pronounced shadow
+    }
+}

@@ -1,0 +1,117 @@
+<div class="surface-section p-4 md:p-6 lg:p-8">
+    <div class="font-medium text-3xl text-primary mb-4">
+      <p-toast></p-toast>
+      <i class="pi pi-user mr-2" style="height: 30px; width: 40px; font-size: 40px;"></i>
+      Edit Employee
+    </div>
+  
+    <div class="text-secondary mb-6">Fill the fields you want to edit.</div>
+  
+    <div class="surface-card p-5 shadow-2 border-round p-fluid">
+      <div class="field mb-4">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          pInputText
+          id="email"
+          [(ngModel)]="employee.email"
+          required
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !employee.email }"
+        />
+        <small class="p-error" *ngIf="submitted && !employee.email">Email is required.</small>
+      </div>
+  
+      <div class="field mb-4">
+        <label for="first_name">First Name</label>
+        <input
+          type="text"
+          pInputText
+          id="first_name"
+          [(ngModel)]="employee.first_name"
+          required
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !employee.first_name }"
+        />
+        <small class="p-error" *ngIf="submitted && !employee.first_name">First name is required.</small>
+      </div>
+  
+      <div class="field mb-4">
+        <label for="last_name">Last Name</label>
+        <input
+          type="text"
+          pInputText
+          id="last_name"
+          [(ngModel)]="employee.last_name"
+          required
+          [ngClass]="{ 'ng-invalid ng-dirty': submitted && !employee.last_name }"
+        />
+        <small class="p-error" *ngIf="submitted && !employee.last_name">Last name is required.</small>
+      </div>
+  
+      <div class="field mb-4">
+        <label for="speciality">Speciality</label>
+        <p-dropdown
+          [options]="specialities"
+          [(ngModel)]="employee.speciality"
+          placeholder="Select Speciality"
+          class="w-full"
+        ></p-dropdown>
+      </div>
+  
+      <div class="field mb-4">
+        <label for="score">Score</label>
+        <p-inputNumber
+          id="score"
+          [(ngModel)]="employee.score"
+          min="0"
+          class="w-full"
+        ></p-inputNumber>
+      </div>
+  
+      <div class="field mb-4">
+        <label for="availability">Availability</label>
+        <div class="flex gap-4 mt-2">
+          <p-radioButton
+            name="availability"
+            value="1"
+            [(ngModel)]="employee.availability"
+            label="Yes"
+          ></p-radioButton>
+          <p-radioButton
+            name="availability"
+            value="0"
+            [(ngModel)]="employee.availability"
+            label="No"
+          ></p-radioButton>
+        </div>
+      </div>
+  
+      <!-- Certifications Section -->
+      <!-- <div class="field mb-4">
+        <h3 class="text-lg font-bold text-primary">Certifications</h3>
+        <app-certifications [employeeId]="employee.id"></app-certifications>
+      </div> -->
+  
+      <!-- Save and Cancel Buttons -->
+      <div class="flex justify-between mt-4">
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-text p-button-danger box-btn mr-3"
+          (click)="reset()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="submit"
+          label="Save"
+          icon="pi pi-check"
+          class="p-button-text p-button-success box-btn"
+          (click)="saveEditEmployee()"
+        ></button>
+      </div>
+    </div>
+  </div>
+  

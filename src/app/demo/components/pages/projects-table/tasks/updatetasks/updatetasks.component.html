@@ -1,0 +1,132 @@
+<!-- Task Table -->
+<div class="surface-section p-4 md:p-6 lg:p-8" *ngIf="!isEditing">
+  <div class="font-medium text-3xl text-primary mb-4">
+    <i class="pi pi-tasks mr-2" style="font-size: 40px;"></i>
+    Tasks for Project {{ project_id }}
+  </div>
+
+  <div class="surface-card p-5 shadow-2 border-round">
+    <p-table [value]="tasks" [paginator]="true" [rows]="10">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Description</th>
+          <th>Status</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-task>
+        <tr>
+          <td>{{ task.description }}</td>
+          <td>{{ task.status }}</td>
+          <td>{{ task.start_date }}</td>
+          <td>{{ task.end_date }}</td>
+          <td>
+            <button
+              pButton
+              pRipple
+              label="Edit"
+              icon="pi pi-pencil"
+              class="p-button-rounded p-button-success mr-2"
+              (click)="editTask(task)"
+            ></button>
+            <button
+              pButton
+              pRipple
+              label="Assign"
+              icon="pi pi-user-plus"
+              class="p-button-rounded p-button-info"
+              (click)="assignTask(task.id)"
+            ></button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<!-- Edit Task Form -->
+<div class="surface-section p-4 md:p-6 lg:p-8" *ngIf="isEditing">
+  <div class="font-medium text-3xl text-primary mb-4">
+    <i class="pi pi-pencil mr-2" style="font-size: 40px;"></i>
+    Edit Task
+  </div>
+
+  <div class="surface-card p-5 shadow-2 border-round p-fluid">
+    <div *ngIf="selectedTask">
+      <!-- Form Content -->
+      <div class="formgrid grid">
+        <div class="field col-12">
+          <label for="description">Description</label>
+          <textarea
+            pInputTextarea
+            id="description"
+            [(ngModel)]="selectedTask.description"
+            rows="3"
+            placeholder="Enter task description"
+            required
+          ></textarea>
+        </div>
+
+        <div class="field col-6">
+          <label for="status">Status</label>
+          <p-dropdown
+            [options]="statuses"
+            [(ngModel)]="selectedTask.status"
+            placeholder="Select Status"
+            required
+          ></p-dropdown>
+        </div>
+
+        <div class="field col-6">
+          <label for="start_date">Start Date</label>
+          <p-calendar
+            id="start_date"
+            [(ngModel)]="selectedTask.start_date"
+            dateFormat="yy-mm-dd"
+            placeholder="Select start date"
+            [showIcon]="true"
+            appendTo="body"
+            required
+          ></p-calendar>
+        </div>
+
+        <div class="field col-6">
+          <label for="end_date">End Date</label>
+          <p-calendar
+            id="end_date"
+            [(ngModel)]="selectedTask.end_date"
+            dateFormat="yy-mm-dd"
+            placeholder="Select end date"
+            [showIcon]="true"
+            appendTo="body"
+            required
+          ></p-calendar>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex justify-content-end gap-3 mt-4">
+        <button
+          pButton
+          pRipple
+          label="Cancel"
+          icon="pi pi-times"
+          class="p-button-danger"
+          style="padding: 0.5rem 1rem; border-radius: 4px;"
+          (click)="cancelEdit()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          label="Save"
+          icon="pi pi-check"
+          class="p-button-success"
+          style="padding: 0.5rem 1rem; border-radius: 4px;"
+          (click)="saveTask()"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>

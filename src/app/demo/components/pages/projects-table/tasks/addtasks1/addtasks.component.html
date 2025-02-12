@@ -1,0 +1,101 @@
+<div class="surface-section p-4 md:p-6 lg:p-8">
+  <div class="font-medium text-3xl text-primary mb-4">
+    <i class="pi pi-tasks mr-2" style="font-size: 40px;"></i>
+    Task {{ taskIndex + 1 }} of 5
+  </div>
+
+  <!-- Add Task Form -->
+  <div class="surface-card p-5 shadow-2 border-round p-fluid">
+    <div class="field mb-4">
+      <label for="description">Description</label>
+      <textarea
+        pInputTextarea
+        id="description"
+        [(ngModel)]="tasks[taskIndex].description"
+        rows="3"
+        placeholder="Enter task description"
+        required
+      ></textarea>
+    </div>
+
+    <div class="field mb-4">
+      <label for="start_date">Start Date</label>
+      <p-calendar
+        id="start_date"
+        [(ngModel)]="tasks[taskIndex].start_date"
+        dateFormat="yy-mm-dd"
+        placeholder="Select start date"
+        required
+      ></p-calendar>
+    </div>
+
+    <div class="field mb-4">
+      <label for="end_date">End Date</label>
+      <p-calendar
+        id="end_date"
+        [(ngModel)]="tasks[taskIndex].end_date"
+        dateFormat="yy-mm-dd"
+        placeholder="Select end date"
+        required
+      ></p-calendar>
+    </div>
+
+    <div class="field mb-4">
+      <label for="due_date">Due Date</label>
+      <p-calendar
+        id="due_date"
+        [(ngModel)]="tasks[taskIndex].due_date"
+        dateFormat="yy-mm-dd"
+        placeholder="Select due date"
+        required
+      ></p-calendar>
+    </div>
+
+    <div class="field mb-4">
+      <label for="status">Status</label>
+      <p-dropdown
+        [options]="statuses"
+        [(ngModel)]="tasks[taskIndex].status"
+        placeholder="Select task status"
+        required
+      ></p-dropdown>
+    </div>
+
+    <div class="flex justify-between gap-3 mt-4">
+      <button
+        pButton
+        pRipple
+        label="Cancel"
+        icon="pi pi-times"
+        class="p-button-text p-button-danger box-btn"
+        (click)="cancel()"
+      ></button>
+      <button
+      pButton
+      pRipple
+      *ngIf="taskIndex != 4"
+      label="Save and Next"
+      icon="pi pi-check"
+      class="p-button-text p-button-success box-btn"
+      (click)="saveTask()">
+    </button>
+      <button
+        *ngIf="taskIndex === 4"
+        pButton
+        pRipple
+        label="Save and Finish"
+        icon="pi pi-check"
+        class="p-button-text p-button-success box-btn"
+        (click)="saveTask()"
+      ></button>
+      <button
+        *ngIf="taskIndex === 4"
+        pButton
+        label="Add Assignments"
+        icon="pi pi-file"
+        class="p-button-info"
+        (click)="navigateToAddAssignements()"
+      ></button>
+    </div>
+  </div>
+</div>

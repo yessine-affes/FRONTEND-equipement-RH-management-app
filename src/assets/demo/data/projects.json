@@ -1,0 +1,124 @@
+{
+  "data": [
+    { 
+      "id": 1, 
+      "name": "Project A", 
+      "description": "Developing a web application for task management.", 
+      "startDate": "2024-01-01", 
+      "endDate": "2024-06-01", 
+      "status": "Active", 
+      "category": "Development", 
+      "rating": 4,
+      "price": 199.99,
+      "imageUrl": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+    },
+    { 
+      "id": 2, 
+      "name": "Project B", 
+      "description": "Researching innovative AI algorithms.", 
+      "startDate": "2024-02-01", 
+      "endDate": "2024-07-01", 
+      "status": "Inactive", 
+      "category": "Research", 
+      "rating": 3,
+      "price": 149.99,
+      "imageUrl": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+    },
+    { 
+      "id": 3, 
+      "name": "Project C", 
+      "description": "Designing marketing materials for a startup.", 
+      "startDate": "2024-03-01", 
+      "endDate": "2024-08-01", 
+      "status": "Active", 
+      "category": "Design", 
+      "rating": 5,
+      "price": 249.99,
+      "imageUrl": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+    },
+    { 
+      "id": 4, 
+      "name": "Project D", 
+      "description": "Building an e-commerce platform for small businesses.", 
+      "startDate": "2024-04-01", 
+      "endDate": "2024-09-01", 
+      "status": "In Progress", 
+      "category": "Development", 
+      "rating": 4,
+      "price": 299.99,
+      "imageUrl": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+    },
+    { 
+      "id": 5, 
+      "name": "Project E", 
+      "description": "Launching a mobile app for health and fitness tracking.", 
+      "startDate": "2024-05-01", 
+      "endDate": "2024-10-01", 
+      "status": "Active", 
+      "category": "Mobile App", 
+      "rating": 4,
+      "price": 179.99,
+      "imageUrl": "https://images.unsplash.com/photo-1498050108023-c5249f4df085?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+    },
+    { 
+      "id": 6, 
+      "name": "Project F", 
+      "description": "Developing a machine learning model for predictive analytics.", 
+      "startDate": "2024-06-01", 
+      "endDate": "2024-12-01", 
+      "status": "Active", 
+      "category": "Machine Learning", 
+      "rating": 5,
+      "price": 349.99,
+      "imageUrl": "https://images.unsplash.com/photo-1531494250547-2d67249c25db?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+    },
+    { 
+      "id": 7, 
+      "name": "Project G", 
+      "description": "Creating an online marketplace for local artisans.", 
+      "startDate": "2024-07-01", 
+      "endDate": "2024-12-01", 
+      "status": "In Progress", 
+      "category": "E-commerce", 
+      "rating": 3,
+      "price": 99.99,
+      "imageUrl": "https://images.unsplash.com/photo-1542555027-bfbc5717c3b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+    },
+    { 
+      "id": 8, 
+      "name": "Project H", 
+      "description": "Developing a web application for real-time traffic data analysis.", 
+      "startDate": "2024-08-01", 
+      "endDate": "2024-11-01", 
+      "status": "Active", 
+      "category": "Data Science", 
+      "rating": 4,
+      "price": 229.99,
+      "imageUrl": "https://images.unsplash.com/photo-1549543487-907ea4455b69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+    },
+    { 
+      "id": 9, 
+      "name": "Project I", 
+      "description": "Building a cloud-based CRM for customer relationship management.", 
+      "startDate": "2024-09-01", 
+      "endDate": "2024-12-01", 
+      "status": "In Progress", 
+      "category": "Cloud Computing", 
+      "rating": 5,
+      "price": 399.99,
+      "imageUrl": "https://images.unsplash.com/photo-1512561712942-61ed3be55ed7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+    },
+    { 
+      "id": 10, 
+      "name": "Project J", 
+      "description": "Designing and developing an augmented reality app for retail.", 
+      "startDate": "2024-10-01", 
+      "endDate": "2025-01-01", 
+      "status": "Inactive", 
+      "category": "Augmented Reality", 
+      "rating": 4,
+      "price": 499.99,
+      "imageUrl": "https://images.unsplash.com/photo-1574126723916-7ccad5ac9c09?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=400"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+.p-button-text {
+    font-size: 14px; /* Reduce font size for smaller buttons */
+    padding: 6px 12px; /* Adjust padding for compact buttons */
+    width: auto; /* Ensure button width is based on content */
+  }
+  
+  /* Add a max width for the buttons so they don't stretch too far */
+  .flex button {
+    max-width: 250px; /* Set max width for buttons */
+    min-width: 120px; /* Optionally, set a minimum width */
+  }
+  .box-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  /* Customize Cancel button (Red) */
+  .p-button-danger.box-btn {
+    background-color: #f44336; /* Red background */
+    color: white;
+    border-color: #f44336;
+  }
+  
+  /* Customize Save button (Green) */
+  .p-button-success.box-btn {
+    background-color: #4caf50; /* Green background */
+    color: white;
+    border-color: #4caf50;
+  }
+  
+  /* Button hover effect */
+  .box-btn:hover {
+    background-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  .p-button-text.p-button-danger:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+  }
+  
+  .p-button-text.p-button-success:hover {
+    background-color: #388e3c; /* Darker green on hover */
+  }
+  
+  
+  
+  .p-dropdown, .p-inputNumber {
+    font-size: 14px;
+  }
+  
+  .field {
+    margin-bottom: 20px;
+    max-width: 80%;
+  }
+  
+  .p-inputtext {
+    padding: 10px;
+  }
+  
+  /* Specific styles for the radio buttons to make them look more uniform */
+  .p-radioButton-sm {
+    font-size: 14px;
+  }
+  
+  /* Enhance error message display */
+  .p-error {
+    font-size: 12px;
+    color: #ff3b3b;
+  }
+  
+  /* Add subtle hover effect to fields */
+  .p-inputText:focus, .p-dropdown:focus, .p-inputNumber:focus {
+    border-color: #0064FF;
+    box-shadow: 0 0 4px rgba(0, 100, 255, 0.4);
+  }
+  
+  /* Style for the file input (image upload) */
+  .input-file {
+    width: 300px;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+  }
